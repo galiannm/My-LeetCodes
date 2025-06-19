@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 class Solution {
     public int longestConsecutive(int[] nums) {
         if (nums.length == 0) return 0;
