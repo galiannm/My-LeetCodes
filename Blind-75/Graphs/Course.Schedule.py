@@ -1,25 +1,28 @@
 class Solution(object):
     def canFinish(self, numCourses, prerequisites):
-        preMap = {i:[] for i in range(numCourses)}
-        for course, pre in prerequisites:
-            preMap[course].append(pre)
-            
-        visit = set()
-        def dfs(currCourse):
-            if currCourse in visit: #loop detected
-                return False
-            if preMap[currCourse] == []: #the course can definitly be completed
-                return True
-            visit.add(currCourse)
-            for preCrs in preMap[currCourse]:
-                if not dfs(preCrs): return False
-            visit.remove(currCourse)
-            preMap[currCourse] = []
+        mp = defaultdict(list)
+        for a, b in prerequisites:
+            mp[a].append(b)
+        
+        visiting = set()
+        visited = set()
+
+        def DFS(c):
+            if c in visiting: return False
+            if c in visited: return True
+
+            visiting.add(c)
+            for pre in mp[c]:
+                if DFS(pre) is False:
+                    return False
+            visiting.remove(c)
+            visited.add(c)
             return True
         
-        for crs in range(numCourses):
-            if not dfs(crs): return False
+        for course in range(numCourses):
+            if DFS(course) is False:
+                return False 
+        
         return True
-
         
         
